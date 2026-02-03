@@ -197,6 +197,29 @@ mediastreamsegmenter \
 - Short segment duration (4s)
 - Partial segments (~1s)
 
+### Apple's LL-HLS Origin Server Example
+
+Apple provides a reference Go implementation at `/usr/local/share/hlstools/ll-hls-origin-example.go`. This handles blocking playlist requests required for LL-HLS.
+
+**Run the origin server:**
+```bash
+# Install dependency
+go get github.com/fsnotify/fsnotify
+
+# Run origin (HTTP for testing)
+go run /usr/local/share/hlstools/ll-hls-origin-example.go -dir /var/www/html/live -http :8080
+
+# Run origin (HTTPS for production)
+go run /usr/local/share/hlstools/ll-hls-origin-example.go -dir /var/www/html/live -http :8443 -certdir /path/to/certs
+```
+
+**Key features:**
+- Handles `_HLS_msn` and `_HLS_part` blocking requests
+- Supports `_HLS_skip=YES` for playlist delta updates
+- Generates `EXT-X-RENDITION-REPORT` for variant switching
+- 3x target duration timeout (returns 503)
+- File watching with fsnotify for instant updates
+
 ---
 
 ## Subtitles

@@ -122,6 +122,42 @@ fileSequence1849.m4s
 
 ## Origin Server Requirements
 
+Standard web servers cannot handle LL-HLS blocking requests. You need a specialized origin server.
+
+### Apple's Official LL-HLS Origin Server
+
+Apple provides a production-ready Go implementation at:
+```
+/usr/local/share/hlstools/ll-hls-origin-example.go
+```
+
+**Run the origin server:**
+```bash
+# Install dependency
+go get github.com/fsnotify/fsnotify
+
+# Run origin (HTTP for testing)
+go run /usr/local/share/hlstools/ll-hls-origin-example.go \
+  -dir /var/www/html/live \
+  -http :8080
+
+# Run origin (HTTPS for production)
+go run /usr/local/share/hlstools/ll-hls-origin-example.go \
+  -dir /var/www/html/live \
+  -http :8443 \
+  -certdir /path/to/certs
+```
+
+**Features of Apple's implementation:**
+- Handles `_HLS_msn` and `_HLS_part` blocking requests
+- Supports `_HLS_skip=YES` for playlist delta updates
+- Generates `EXT-X-RENDITION-REPORT` for seamless variant switching
+- Uses `fsnotify` for instant file change detection
+- 3x target duration timeout (returns 503 per spec)
+- Proper CORS and cache headers
+
+**This is the recommended origin server for LL-HLS.**
+
 ### Blocking Playlist Requests
 
 Client requests playlist with query parameters:
