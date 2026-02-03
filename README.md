@@ -149,14 +149,6 @@ mediastreamsegmenter -f /var/www/live -t 6 -s 10 -D -T --format iso 224.0.0.50:9
 - [Enabling Low-Latency HLS](https://developer.apple.com/documentation/http-live-streaming/enabling-low-latency-http-live-streaming-hls)
 - [HLS Protocol (IETF)](https://datatracker.ietf.org/doc/html/draft-pantos-hls-rfc8216bis)
 
-## License
-
-MIT License - See LICENSE file for details.
-
-## Contributing
-
-Contributions welcome! Please submit issues and pull requests.
-
 ## Acknowledgments
 
 - Apple for the HLS Tools and documentation
